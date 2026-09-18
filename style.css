@@ -156,30 +156,27 @@ p {
    ACCESS GATE
    ========================================= */
 
-body.is-locked {
-    overflow: hidden;
-}
-
-body.is-locked .site-header,
-body.is-locked main,
-body.is-locked .site-footer {
-    visibility: hidden;
-    pointer-events: none;
-}
-
 .access-gate {
-    display: none;
-}
-
-body.is-locked .access-gate {
     display: flex;
     position: fixed;
     inset: 0;
-    z-index: 2000;
+    z-index: 4000;
     align-items: center;
     justify-content: center;
     padding: 24px;
     background: var(--cream);
+}
+
+.access-gate[hidden] {
+    display: none !important;
+}
+
+body.is-locked {
+    overflow: hidden;
+}
+
+body.is-locked .site {
+    display: none;
 }
 
 .access-gate-card {
@@ -228,11 +225,6 @@ body.is-locked .access-gate {
 .access-gate-form .button {
     width: 100%;
     margin-top: 4px;
-}
-
-.timeline-item[hidden],
-.faq-list details[hidden] {
-    display: none;
 }
 
 
@@ -456,7 +448,7 @@ body.is-locked .access-gate {
    RUNNING ORDER / TIMELINE
    ========================================= */
 
-   .schedule-section {
+.schedule-section {
     max-width: 1000px;
     margin: 0 auto;
     padding: 100px 24px;
@@ -872,11 +864,6 @@ body.is-locked .access-gate {
         display: flex;
     }
 
-    .day-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-
     .section {
         padding: 80px 0;
     }
@@ -908,10 +895,6 @@ body.is-locked .access-gate {
 
     .hero {
         padding: 60px 15px;
-    }
-
-    .day-card {
-        padding: 35px 25px;
     }
 
     .info-links > a {

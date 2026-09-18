@@ -13,8 +13,8 @@ const accessGate = document.querySelector('#access-gate');
 const accessForm = document.querySelector('#access-form');
 const accessInput = document.querySelector('#access-code');
 const accessError = document.querySelector('#access-error');
-const viewDay = document.querySelector('#view-day');
-const viewFaqs = document.querySelector('#view-faqs');
+const viewDay = document.querySelector('#day');
+const viewFaqs = document.querySelector('#faqs-view');
 
 const loadedViews = new Map();
 
@@ -75,11 +75,13 @@ async function loadView(access) {
 async function unlockSite(access) {
     await loadView(access);
     document.body.classList.remove('is-locked');
+    accessGate.hidden = true;
     accessGate.setAttribute('aria-hidden', 'true');
 }
 
 function lockSite() {
     document.body.classList.add('is-locked');
+    accessGate.hidden = false;
     accessGate.removeAttribute('aria-hidden');
     accessInput.focus();
 }

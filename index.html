@@ -16,6 +16,30 @@
     >
 
     <link rel="stylesheet" href="style.css">
+    <style>
+        .access-gate {
+            display: flex;
+            position: fixed;
+            inset: 0;
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: #f8f5ef;
+        }
+
+        .access-gate[hidden] {
+            display: none !important;
+        }
+
+        body.is-locked {
+            overflow: hidden;
+        }
+
+        body.is-locked .site {
+            display: none !important;
+        }
+    </style>
 </head>
 
 <body class="is-locked">
@@ -53,9 +77,7 @@
         </div>
     </div>
 
-    <!-- ================================
-         HEADER / NAVIGATION
-    ================================= -->
+    <div class="site">
 
     <header class="site-header">
 
@@ -195,7 +217,7 @@
         </section>
 
 
-        <div id="view-day"></div>
+        <div id="day"></div>
 
         <!-- ================================
              VENUE
@@ -390,7 +412,7 @@
                     </details>
 
 
-                    <div id="view-faqs"></div>
+                    <div id="faqs-view"></div>
 
                 </div>
 
@@ -457,6 +479,7 @@
 
     </footer>
 
+    </div>
 
     <script type="module" src="script.js"></script>
 
