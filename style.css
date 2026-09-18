@@ -1,0 +1,855 @@
+/* =========================================
+   WEDDING WEBSITE — BASE STYLES
+   ========================================= */
+
+   :root {
+    --cream: #f8f5ef;
+    --warm-white: #fffdf9;
+    --sage: #a8b5a0;
+    --sage-dark: #596653;
+    --green: #3f4d42;
+    --text: #333833;
+    --muted: #747970;
+    --white: #ffffff;
+    --border: #deded6;
+
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: Arial, Helvetica, sans-serif;
+
+    --container: 1100px;
+    --narrow: 720px;
+
+    --shadow: 0 10px 30px rgba(45, 55, 45, 0.08);
+}
+
+
+/* =========================================
+   RESET
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--warm-white);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    font: inherit;
+}
+
+
+/* =========================================
+   TYPOGRAPHY
+   ========================================= */
+
+h1,
+h2,
+h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--green);
+}
+
+h1 {
+    font-size: clamp(4rem, 9vw, 7.5rem);
+    letter-spacing: -0.04em;
+}
+
+h1 span {
+    display: inline-block;
+    margin: 0 0.08em;
+    font-style: italic;
+    color: var(--sage-dark);
+}
+
+h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.8rem;
+}
+
+p {
+    color: var(--muted);
+}
+
+.lead {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: var(--green);
+}
+
+.eyebrow {
+    margin-bottom: 0.8rem;
+    color: var(--sage-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+/* =========================================
+   LAYOUT
+   ========================================= */
+
+.container {
+    width: min(calc(100% - 40px), var(--container));
+    margin-inline: auto;
+}
+
+.container.narrow {
+    max-width: var(--narrow);
+}
+
+.section {
+    padding: 110px 0;
+}
+
+.section-heading {
+    margin-bottom: 55px;
+}
+
+
+/* =========================================
+   HEADER / NAVIGATION
+   ========================================= */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 253, 249, 0.94);
+    border-bottom: 1px solid rgba(63, 77, 66, 0.08);
+    backdrop-filter: blur(12px);
+}
+
+.navigation {
+    width: min(calc(100% - 40px), var(--container));
+    min-height: 78px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    border: 1px solid var(--sage-dark);
+    border-radius: 50%;
+
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--green);
+}
+
+.navigation-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.navigation-links a {
+    position: relative;
+
+    color: var(--green);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    transition: color 0.2s ease;
+}
+
+.navigation-links a:not(.nav-rsvp)::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+
+    width: 100%;
+    height: 1px;
+
+    background: var(--sage-dark);
+
+    transform: scaleX(0);
+    transform-origin: right;
+
+    transition: transform 0.25s ease;
+}
+
+.navigation-links a:not(.nav-rsvp):hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.navigation-links a:hover {
+    color: var(--sage-dark);
+}
+
+.nav-rsvp {
+    padding: 10px 18px;
+    border: 1px solid var(--green);
+    border-radius: 30px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.nav-rsvp:hover {
+    background: var(--green);
+    color: var(--white) !important;
+}
+
+.menu-toggle {
+    display: none;
+
+    border: 0;
+    background: transparent;
+    color: var(--green);
+
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+
+/* =========================================
+   HERO
+   ========================================= */
+
+.hero {
+    min-height: calc(100vh - 78px);
+    padding: 100px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(168, 181, 160, 0.25),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 80% 80%,
+            rgba(168, 181, 160, 0.2),
+            transparent 35%
+        ),
+        var(--cream);
+}
+
+.hero-content {
+    max-width: 900px;
+}
+
+.hero .eyebrow {
+    margin-bottom: 1.2rem;
+}
+
+.hero-date {
+    margin: 1.5rem 0 2.5rem;
+
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    color: var(--green);
+}
+
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 52px;
+    padding: 0 28px;
+
+    border: 1px solid var(--green);
+    border-radius: 30px;
+
+    background: var(--green);
+    color: var(--white);
+
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.button:hover {
+    background: transparent;
+    color: var(--green);
+    transform: translateY(-2px);
+}
+
+.button-light {
+    border-color: var(--white);
+    background: var(--white);
+    color: var(--green);
+}
+
+.button-light:hover {
+    background: transparent;
+    color: var(--white);
+}
+
+
+/* =========================================
+   WELCOME
+   ========================================= */
+
+.section-welcome {
+    background: var(--warm-white);
+}
+
+.section-welcome .lead {
+    margin-bottom: 1.5rem;
+}
+
+
+/* =========================================
+   RUNNING ORDER / TIMELINE
+   ========================================= */
+
+   .schedule-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 100px 24px;
+}
+
+.schedule-section .section-heading {
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto 70px;
+}
+
+.timeline {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* The central line */
+.timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: var(--border-color, #d8d2c8);
+    transform: translateX(-50%);
+}
+
+/* Individual event */
+.timeline-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    align-items: center;
+    min-height: 150px;
+}
+
+/* Event marker */
+.timeline-marker {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+
+    width: 16px;
+    height: 16px;
+
+    background: var(--background, #fff);
+    border: 3px solid var(--accent, #8b7355);
+    border-radius: 50%;
+
+    z-index: 2;
+}
+
+/* Event content */
+.timeline-content {
+    grid-row: 1;
+    width: 100%;
+    max-width: 320px;
+    padding: 24px 30px;
+
+    background: var(--card-background, #fff);
+    border-radius: 12px;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+/* Alternate sides */
+.timeline-item:nth-child(odd) .timeline-content {
+    grid-column: 1;
+    justify-self: end;
+    text-align: right;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+    grid-column: 3;
+    justify-self: start;
+    text-align: left;
+}
+
+/* Time */
+.timeline-time {
+    display: block;
+    margin-bottom: 6px;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    color: var(--accent, #8b7355);
+}
+
+/* Event title */
+.timeline-content h3 {
+    margin: 0 0 8px;
+
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+/* Description */
+.timeline-content p {
+    margin: 0;
+
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-muted, #777);
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 700px) {
+
+    .schedule-section {
+        padding: 70px 20px;
+    }
+
+    .schedule-section .section-heading {
+        margin-bottom: 50px;
+    }
+
+    .timeline {
+        padding-left: 30px;
+    }
+
+    /* Move line to the left */
+    .timeline::before {
+        left: 7px;
+        transform: none;
+    }
+
+    .timeline-item {
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        min-height: auto;
+        margin-bottom: 30px;
+    }
+
+    .timeline-marker {
+        grid-column: 1;
+        width: 14px;
+        height: 14px;
+    }
+
+    .timeline-content,
+    .timeline-item:nth-child(odd) .timeline-content,
+    .timeline-item:nth-child(even) .timeline-content {
+        grid-column: 2;
+        grid-row: 1;
+
+        justify-self: start;
+        text-align: left;
+
+        max-width: none;
+        padding: 20px 22px;
+    }
+
+    .timeline-item:last-child {
+        margin-bottom: 0;
+    }
+}
+
+
+/* =========================================
+   VENUE
+   ========================================= */
+
+#venue {
+    background: var(--warm-white);
+}
+
+#venue .lead {
+    margin-bottom: 1rem;
+}
+
+#venue .button {
+    margin-top: 2rem;
+}
+
+
+/* =========================================
+   TRAVEL
+   ========================================= */
+
+.section-cream {
+    background: var(--cream);
+}
+
+.info-links {
+    border-top: 1px solid var(--border);
+}
+
+.info-links > a {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    padding: 24px 10px;
+
+    border-bottom: 1px solid var(--border);
+
+    transition:
+        padding 0.2s ease,
+        background 0.2s ease;
+}
+
+.info-links > a:hover {
+    padding-left: 20px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.info-links > a > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    border: 1px solid var(--sage-dark);
+    border-radius: 50%;
+
+    font-family: var(--serif);
+    color: var(--green);
+}
+
+.info-links strong {
+    display: block;
+
+    margin-bottom: 2px;
+
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--green);
+}
+
+.info-links small {
+    color: var(--muted);
+}
+
+
+/* =========================================
+   FAQ
+   ========================================= */
+
+.faq-list {
+    border-top: 1px solid var(--border);
+}
+
+.faq-list details {
+    border-bottom: 1px solid var(--border);
+}
+
+.faq-list summary {
+    position: relative;
+
+    padding: 25px 45px 25px 5px;
+
+    cursor: pointer;
+
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    color: var(--green);
+
+    list-style: none;
+}
+
+.faq-list summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-list summary::after {
+    content: "+";
+
+    position: absolute;
+    right: 8px;
+    top: 50%;
+
+    font-family: var(--sans);
+    font-size: 1.5rem;
+    font-weight: 300;
+
+    transform: translateY(-50%);
+    transition: transform 0.2s ease;
+}
+
+.faq-list details[open] summary::after {
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.faq-list details p {
+    max-width: 600px;
+    padding: 0 45px 25px 5px;
+}
+
+
+/* =========================================
+   RSVP
+   ========================================= */
+
+.rsvp {
+    background: var(--green);
+    padding: 120px 0;
+    text-align: center;
+}
+
+.rsvp .eyebrow,
+.rsvp h2,
+.rsvp p {
+    color: var(--white);
+}
+
+.rsvp p {
+    max-width: 500px;
+    margin: 0 auto 2rem;
+    opacity: 0.85;
+}
+
+.rsvp .button {
+    margin-top: 0.5rem;
+}
+
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.site-footer {
+    padding: 45px 20px;
+
+    background: #303a32;
+    color: rgba(255, 255, 255, 0.65);
+
+    text-align: center;
+}
+
+.site-footer p {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.85rem;
+}
+
+.footer-names {
+    margin-bottom: 5px;
+
+    font-family: var(--serif);
+    font-size: 1.5rem !important;
+    color: var(--white) !important;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 800px) {
+
+    .navigation {
+        min-height: 70px;
+    }
+
+    .navigation-links {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+
+        padding: 10px 20px 20px;
+
+        background: var(--warm-white);
+        border-bottom: 1px solid var(--border);
+        box-shadow: var(--shadow);
+    }
+
+    .navigation-links li {
+        width: 100%;
+    }
+
+    .navigation-links a {
+        display: block;
+        padding: 14px 5px;
+    }
+
+    .navigation-links a:not(.nav-rsvp)::after {
+        display: none;
+    }
+
+    .nav-rsvp {
+        margin-top: 8px;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    /*
+       This works with your existing
+       aria-expanded attribute when your
+       JavaScript toggles it.
+    */
+    .menu-toggle[aria-expanded="true"] + .navigation-links {
+        display: flex;
+    }
+
+    .day-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .section {
+        padding: 80px 0;
+    }
+
+    .hero {
+        min-height: calc(100vh - 70px);
+        padding: 80px 20px;
+    }
+
+    h1 {
+        font-size: clamp(3.5rem, 17vw, 6rem);
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .container {
+        width: min(calc(100% - 30px), var(--container));
+    }
+
+    .navigation {
+        width: calc(100% - 30px);
+    }
+
+    .section {
+        padding: 65px 0;
+    }
+
+    .hero {
+        padding: 60px 15px;
+    }
+
+    .day-card {
+        padding: 35px 25px;
+    }
+
+    .info-links > a {
+        gap: 15px;
+    }
+
+    .faq-list summary {
+        padding-left: 0;
+    }
+
+    .faq-list details p {
+        padding-left: 0;
+    }
+}
+
+
+/* =========================================
+   ACCESSIBILITY
+   ========================================= */
+
+:focus-visible {
+    outline: 2px solid var(--sage-dark);
+    outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
