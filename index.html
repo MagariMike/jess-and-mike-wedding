@@ -18,7 +18,40 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="is-locked">
+
+    <div
+        class="access-gate"
+        id="access-gate"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="access-gate-title"
+    >
+        <div class="access-gate-card">
+            <p class="eyebrow">Mike &amp; Jess</p>
+            <h2 id="access-gate-title">Welcome</h2>
+            <p>Please enter the code from your invitation to view the wedding website.</p>
+
+            <form class="access-gate-form" id="access-form" novalidate>
+                <label class="visually-hidden" for="access-code">Invitation code</label>
+                <input
+                    id="access-code"
+                    name="access-code"
+                    type="text"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    autocomplete="one-time-code"
+                    maxlength="8"
+                    placeholder="Enter your code"
+                    required
+                >
+                <p class="access-gate-error" id="access-error" hidden>
+                    That code isn't recognised. Please check your invitation and try again.
+                </p>
+                <button class="button" type="submit">Continue</button>
+            </form>
+        </div>
+    </div>
 
     <!-- ================================
          HEADER / NAVIGATION
@@ -162,93 +195,7 @@
         </section>
 
 
-        <!-- ================================
-             THE DAY
-        ================================= -->
-
-        <section id="schedule" class="schedule-section">
-            <div class="section-heading">
-                <!-- <p class="eyebrow">The big day</p> -->
-                <h2>The Big Day</h2>
-                <!-- <p>Here's how we'll be spending the day together.</p> -->
-            </div>
-        
-            <div class="timeline">
-        
-                <div class="timeline-item">
-                    <div class="timeline-time">12:30</div>
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>Guests Arrive</h3>
-                        <p>Make your way in, get settled and enjoy a drink.</p>
-                    </div>
-                </div>
-        
-                <div class="timeline-item">
-                    <div class="timeline-time">13:00</div>
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>The Ceremony</h3>
-                        <p>It's time to get married!</p>
-                    </div>
-                </div>
-        
-                <div class="timeline-item">
-                    <div class="timeline-time">14:00</div>
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>Drinks &amp; Canapés</h3>
-                        <p>Relax, catch up and enjoy some refreshments.</p>
-                    </div>
-                </div>
-        
-                <div class="timeline-item">
-                    <div class="timeline-time">15:00</div>
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>Wedding Breakfast</h3>
-                        <p>Time to sit down and enjoy some good food.</p>
-                    </div>
-                </div>
-        
-                <div class="timeline-item">
-                    <div class="timeline-time">17:00</div>
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>Speeches</h3>
-                        <p>A few words from some very important people.</p>
-                    </div>
-                </div>
-        
-                <div class="timeline-item">
-                    <div class="timeline-time">19:00</div>
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>Evening Food</h3>
-                        <p>Something delicious to keep everyone fuelled.</p>
-                    </div>
-                </div>
-        
-                <div class="timeline-item">
-                    <div class="timeline-time">20:00</div>
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>First Dance</h3>
-                        <p>Then it's time to get the party started.</p>
-                    </div>
-                </div>
-        
-                <div class="timeline-item">
-                    <div class="timeline-time">20:15</div>
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>Party!</h3>
-                        <p>Music, dancing and celebrating into the evening.</p>
-                    </div>
-                </div>
-        
-            </div>
-        </section>
+        <div id="view-day"></div>
 
         <!-- ================================
              VENUE
@@ -443,18 +390,7 @@
                     </details>
 
 
-                    <details>
-
-                        <summary>
-                            What time should I arrive?
-                        </summary>
-
-                        <p>
-                            Arrival information
-                            will be added here.
-                        </p>
-
-                    </details>
+                    <div id="view-faqs"></div>
 
                 </div>
 
@@ -522,7 +458,7 @@
     </footer>
 
 
-    <script src="js/main.js"></script>
+    <script type="module" src="script.js"></script>
 
 </body>
 </html>
