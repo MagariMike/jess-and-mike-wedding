@@ -9,10 +9,12 @@ const VIEW_FILES = {
 
 const menuToggle = document.querySelector('.menu-toggle');
 const navigationLinks = document.querySelector('.navigation-links');
+
 const accessGate = document.querySelector('#access-gate');
 const accessForm = document.querySelector('#access-form');
 const accessInput = document.querySelector('#access-code');
 const accessError = document.querySelector('#access-error');
+
 const viewDay = document.querySelector('#day');
 const viewFaqs = document.querySelector('#faqs-view');
 
@@ -63,26 +65,40 @@ async function loadView(access) {
         loadedViews.set(access, await response.text());
     }
 
-    const doc = new DOMParser().parseFromString(loadedViews.get(access), 'text/html');
+    const doc = new DOMParser().parseFromString(
+        loadedViews.get(access),
+        'text/html'
+    );
+
     const dayContent = doc.querySelector('[data-slot="day"]');
     const faqContent = doc.querySelector('[data-slot="faqs"]');
 
-    viewDay.replaceChildren(...(dayContent ? [...dayContent.childNodes] : []));
-    viewFaqs.replaceChildren(...(faqContent ? [...faqContent.childNodes] : []));
+    viewDay.replaceChildren(
+        ...(dayContent ? [...dayContent.childNodes] : [])
+    );
+
+    viewFaqs.replaceChildren(
+        ...(faqContent ? [...faqContent.childNodes] : [])
+    );
+
     layoutTimeline();
 }
 
-async function unlockSite(access) {
-    await loadView(access);
+async function unlockSite(accessDetails) {
+    await loadView(accessDetails.access);
+
     document.body.classList.remove('is-locked');
+
     accessGate.hidden = true;
     accessGate.setAttribute('aria-hidden', 'true');
 }
 
 function lockSite() {
     document.body.classList.add('is-locked');
+
     accessGate.hidden = false;
     accessGate.removeAttribute('aria-hidden');
+
     accessInput.focus();
 }
 
@@ -92,9 +108,14 @@ if (menuToggle && navigationLinks) {
             return;
         }
 
-        const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+        const isOpen =
+            menuToggle.getAttribute('aria-expanded') === 'true';
 
-        menuToggle.setAttribute('aria-expanded', String(!isOpen));
+        menuToggle.setAttribute(
+            'aria-expanded',
+            String(!isOpen)
+        );
+
         navigationLinks.style.display = isOpen ? '' : 'flex';
     });
 }
@@ -102,9 +123,9 @@ if (menuToggle && navigationLinks) {
 accessForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const access = lookupAccess(accessInput.value);
+    const accessDetails = lookupAccess(accessInput.value);
 
-    if (!access) {
+    if (!accessDetails) {
         accessError.hidden = false;
         accessInput.focus();
         accessInput.select();
@@ -112,26 +133,39 @@ accessForm.addEventListener('submit', async (event) => {
     }
 
     try {
-        await unlockSite(access);
-        localStorage.setItem(ACCESS_STORAGE_KEY, JSON.stringify({
-            code: accessInput.value.trim(),
-            access
-        }));
+        await unlockSite(accessDetails);
+
+        localStorage.setItem(
+            ACCESS_STORAGE_KEY,
+            JSON.stringify({
+                code: accessInput.value.trim(),
+                name: accessDetails.name,
+                access: accessDetails.access
+            })
+        );
+
         accessError.hidden = true;
+
     } catch {
         accessError.hidden = false;
-        accessError.textContent = 'Something went wrong loading the site. Please try again.';
+        accessError.textContent =
+            'Something went wrong loading the site. Please try again.';
     }
 });
 
 accessInput.addEventListener('input', () => {
     accessError.hidden = true;
-    accessError.textContent = "That code isn't recognised. Please check your invitation and try again.";
+
+    accessError.textContent =
+        "That code isn't recognised. Please check your invitation and try again.";
 });
 
 async function start() {
     const storedAccess = getStoredAccess();
-    const restoredAccess = storedAccess ? lookupAccess(storedAccess.code) : null;
+
+    const restoredAccess = storedAccess
+        ? lookupAccess(storedAccess.code)
+        : null;
 
     if (!restoredAccess) {
         lockSite();
