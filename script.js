@@ -1,4 +1,4 @@
-import { ACCESS_CODES } from './codes.js';
+import { GUESTS } from './codes.js';
 
 const ACCESS_STORAGE_KEY = 'weddingAccess';
 
@@ -7,20 +7,33 @@ const VIEW_FILES = {
     evening: './views/evening.html'
 };
 
-const menuToggle = document.querySelector('.menu-toggle');
-const navigationLinks = document.querySelector('.navigation-links');
+const DEFAULT_ERROR =
+    "That code isn't recognised. Please check your invitation and try again.";
 
+const siteRoot = document.querySelector('#site');
 const accessGate = document.querySelector('#access-gate');
 const accessForm = document.querySelector('#access-form');
 const accessInput = document.querySelector('#access-code');
 const accessError = document.querySelector('#access-error');
 
-const viewDay = document.querySelector('#day');
-const viewFaqs = document.querySelector('#faqs-view');
-
+// Cache each view after the first load so switching guests is snappy
 const loadedViews = new Map();
 
-function getStoredAccess() {
+
+function findGuest(code) {
+    const entered = String(code).trim().toLowerCase();
+
+    if (!entered) {
+        return null;
+    }
+
+    return GUESTS.find(
+        (guest) => guest.code.toLowerCase() === entered
+    ) || null;
+}
+
+
+function getStoredGuest() {
     try {
         const stored = localStorage.getItem(ACCESS_STORAGE_KEY);
         return stored ? JSON.parse(stored) : null;
@@ -29,30 +42,64 @@ function getStoredAccess() {
     }
 }
 
-function lookupAccess(code) {
-    const normalised = String(code).trim();
 
-    if (!/^\d+$/.test(normalised)) {
-        return null;
-    }
-
-    return ACCESS_CODES[Number(normalised)] || null;
+function rememberGuest(guest, enteredCode) {
+    localStorage.setItem(
+        ACCESS_STORAGE_KEY,
+        JSON.stringify({
+            code: enteredCode,
+            name: guest.name,
+            access: guest.access
+        })
+    );
 }
+
+
+function showError(message) {
+    accessError.textContent = message;
+    accessError.hidden = false;
+}
+
+
+function clearError() {
+    accessError.hidden = true;
+    accessError.textContent = DEFAULT_ERROR;
+}
+
 
 function layoutTimeline() {
-    const items = [...document.querySelectorAll('.timeline-item')];
+    const items = document.querySelectorAll('.timeline-item');
 
     items.forEach((item, index) => {
-        item.classList.toggle('is-left', index % 2 === 0);
-        item.classList.toggle('is-right', index % 2 === 1);
+        const isLeft = index % 2 === 0;
+        item.classList.toggle('is-left', isLeft);
+        item.classList.toggle('is-right', !isLeft);
     });
 }
+
+
+function setupMobileMenu() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navigationLinks = document.querySelector('.navigation-links');
+
+    if (!menuToggle || !navigationLinks) {
+        return;
+    }
+
+    menuToggle.addEventListener('click', () => {
+        const isOpen =
+            menuToggle.getAttribute('aria-expanded') === 'true';
+
+        menuToggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+}
+
 
 async function loadView(access) {
     const viewPath = VIEW_FILES[access];
 
     if (!viewPath) {
-        throw new Error(`No view found for access type: ${access}`);
+        throw new Error(`Unknown access type: ${access}`);
     }
 
     if (!loadedViews.has(access)) {
@@ -65,119 +112,75 @@ async function loadView(access) {
         loadedViews.set(access, await response.text());
     }
 
-    const doc = new DOMParser().parseFromString(
-        loadedViews.get(access),
-        'text/html'
-    );
+    const html = loadedViews.get(access);
+    const doc = new DOMParser().parseFromString(html, 'text/html');
 
-    const dayContent = doc.querySelector('[data-slot="day"]');
-    const faqContent = doc.querySelector('[data-slot="faqs"]');
+    siteRoot.replaceChildren(...doc.body.childNodes);
 
-    viewDay.replaceChildren(
-        ...(dayContent ? [...dayContent.childNodes] : [])
-    );
-
-    viewFaqs.replaceChildren(
-        ...(faqContent ? [...faqContent.childNodes] : [])
-    );
-
+    setupMobileMenu();
     layoutTimeline();
 }
 
-async function unlockSite(accessDetails) {
-    await loadView(accessDetails.access);
+
+async function unlockSite(guest) {
+    await loadView(guest.access);
 
     document.body.classList.remove('is-locked');
-
     accessGate.hidden = true;
-    accessGate.setAttribute('aria-hidden', 'true');
 }
+
 
 function lockSite() {
     document.body.classList.add('is-locked');
-
     accessGate.hidden = false;
-    accessGate.removeAttribute('aria-hidden');
-
     accessInput.focus();
 }
 
-if (menuToggle && navigationLinks) {
-    menuToggle.addEventListener('click', () => {
-        if (document.body.classList.contains('is-locked')) {
-            return;
-        }
-
-        const isOpen =
-            menuToggle.getAttribute('aria-expanded') === 'true';
-
-        menuToggle.setAttribute(
-            'aria-expanded',
-            String(!isOpen)
-        );
-
-        navigationLinks.style.display = isOpen ? '' : 'flex';
-    });
-}
 
 accessForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const accessDetails = lookupAccess(accessInput.value);
+    const enteredCode = accessInput.value.trim();
+    const guest = findGuest(enteredCode);
 
-    if (!accessDetails) {
-        accessError.hidden = false;
+    if (!guest) {
+        showError(DEFAULT_ERROR);
         accessInput.focus();
         accessInput.select();
         return;
     }
 
     try {
-        await unlockSite(accessDetails);
-
-        localStorage.setItem(
-            ACCESS_STORAGE_KEY,
-            JSON.stringify({
-                code: accessInput.value.trim(),
-                name: accessDetails.name,
-                access: accessDetails.access
-            })
-        );
-
-        accessError.hidden = true;
-
+        await unlockSite(guest);
+        rememberGuest(guest, enteredCode);
+        clearError();
     } catch {
-        accessError.hidden = false;
-        accessError.textContent =
-            'Something went wrong loading the site. Please try again.';
+        showError('Something went wrong loading the site. Please try again.');
     }
 });
 
-accessInput.addEventListener('input', () => {
-    accessError.hidden = true;
 
-    accessError.textContent =
-        "That code isn't recognised. Please check your invitation and try again.";
+accessInput.addEventListener('input', () => {
+    clearError();
 });
 
+
 async function start() {
-    const storedAccess = getStoredAccess();
+    const stored = getStoredGuest();
+    const guest = stored ? findGuest(stored.code) : null;
 
-    const restoredAccess = storedAccess
-        ? lookupAccess(storedAccess.code)
-        : null;
-
-    if (!restoredAccess) {
+    if (!guest) {
         lockSite();
         return;
     }
 
     try {
-        await unlockSite(restoredAccess);
+        await unlockSite(guest);
     } catch {
         localStorage.removeItem(ACCESS_STORAGE_KEY);
         lockSite();
     }
 }
+
 
 start();
