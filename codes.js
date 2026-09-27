@@ -3,11 +3,12 @@
 
   code   = first 3 letters of first name + 27
            e.g. Wendy -> Wen27, Zara -> Zar27
-  access = "full" or "evening"
+  access = "full", "evening", or "out-of-town"
            (which view file they see after entering their code)
+           out-of-town = full day + Stay section for travelling guests
 
   If two people would get the same code, add a letter:
-  And27, And27a, And27b, ...
+    And27, And27a, And27b, ...
 
   To add a guest, copy a line and fill in name / code / access.
 */
@@ -15,6 +16,7 @@
 export const GUESTS = [
     { name: 'Mike (Groom)', code: 'Mik27', access: 'full' },
     { name: 'Jess (Bride)', code: 'Jes27', access: 'full' },
+    { name: 'Out of town preview', code: 'OOT', access: 'out-of-town' },
 
     { name: 'Debs', code: 'Deb27', access: 'full' },
     { name: 'Andy', code: 'And27', access: 'full' },

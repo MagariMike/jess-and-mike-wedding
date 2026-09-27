@@ -4,7 +4,8 @@ const ACCESS_STORAGE_KEY = 'weddingAccess';
 
 const VIEW_FILES = {
     full: './views/full.html',
-    evening: './views/evening.html'
+    evening: './views/evening.html',
+    'out-of-town': './views/out-of-town.html'
 };
 
 const DEFAULT_ERROR =
