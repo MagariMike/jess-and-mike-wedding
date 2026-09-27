@@ -1,0 +1,23 @@
+---
+description: Mike & Jess wedding site brand colour palette
+alwaysApply: true
+---
+
+# Wedding colour palette
+
+Use these as the main brand colours for the wedding website. Prefer the named CSS variables in `style.css` rather than hardcoding hex values.
+
+| Name | Hex | CSS variable | Typical use |
+|------|-----|--------------|-------------|
+| Matcha | `#b4a64b` | `--matcha` | Accents, markers, highlights |
+| Velvet | `#591e2a` | `--velvet` | Buttons, strong accents, ampersand |
+| Pink Silk | `#d6a6b1` | `--pink-silk` | Soft accents, borders, secondary highlights |
+| Moss | `#464719` | `--moss` | Headings, primary dark text accents |
+
+Supporting surfaces already derived from this palette:
+
+- `--cream`, `--warm-white`, `--soft-pink` for backgrounds
+- `--text`, `--muted` for body copy
+- `--border` for dividers and outlines
+
+When adding new UI, stay within this palette. Do not reintroduce the old sage/green scheme.
