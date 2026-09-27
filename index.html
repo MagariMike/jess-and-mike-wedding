@@ -35,26 +35,24 @@
         aria-labelledby="access-gate-title"
     >
         <div class="access-gate-card">
-            <p class="eyebrow">Mike &amp; Jess</p>
-            <h2 id="access-gate-title">Welcome</h2>
-            <p>Please enter the code from your invitation to view the wedding website.</p>
+            <h2 id="access-gate-title">Now then...</h2>
 
             <form class="access-gate-form" id="access-form" novalidate>
-                <label class="visually-hidden" for="access-code">Invitation code</label>
+                <label class="visually-hidden" for="access-code">Password</label>
                 <input
                     id="access-code"
                     name="access-code"
                     type="text"
                     autocomplete="one-time-code"
                     maxlength="24"
-                    placeholder="Enter your Password"
+                    placeholder="Enter your password"
                     spellcheck="false"
                     required
                 >
                 <p class="access-gate-error" id="access-error" hidden>
                     That code isn't recognised. Please check your invitation and try again.
                 </p>
-                <button class="button" type="submit">Continue</button>
+                <button class="button" type="submit">Enter</button>
             </form>
         </div>
     </div>

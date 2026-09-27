@@ -47,11 +47,11 @@ html {
 }
 
 body {
-    background: var(--warm-white);
     color: var(--text);
     font-family: var(--sans);
     font-size: 16px;
     line-height: 1.7;
+    background: var(--cream);
 }
 
 a {
@@ -188,7 +188,35 @@ p {
     align-items: center;
     justify-content: center;
     padding: 24px;
-    background: var(--cream);
+    background-color: var(--cream);
+    background-image:
+        url("images/drawings/wallpaper.png"),
+        linear-gradient(
+            118deg,
+            rgba(214, 166, 177, 0.34) 0%,
+            rgba(214, 166, 177, 0.08) 22%,
+            transparent 38%
+        ),
+        linear-gradient(
+            298deg,
+            rgba(180, 166, 75, 0.22) 0%,
+            rgba(180, 166, 75, 0.06) 24%,
+            transparent 46%
+        ),
+        linear-gradient(
+            180deg,
+            var(--soft-pink) 0%,
+            var(--cream) 38%,
+            var(--cream) 68%,
+            rgba(180, 166, 75, 0.12) 100%
+        );
+    background-size:
+        320px auto,
+        auto,
+        auto,
+        auto;
+    background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+    background-position: center top, 0 0, 0 0, 0 0;
 }
 
 .access-gate[hidden] {
@@ -204,59 +232,103 @@ body.is-locked .site {
 }
 
 .access-gate-card {
-    width: min(100%, 440px);
-    padding: 48px 36px;
-    background: var(--warm-white);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 1;
+    width: min(100%, 420px);
+    padding: 2.75rem 2.25rem 2.5rem;
     text-align: center;
+
+    background:
+        linear-gradient(
+            165deg,
+            rgba(255, 255, 255, 0.94) 0%,
+            rgba(250, 246, 247, 0.92) 55%,
+            rgba(244, 234, 237, 0.88) 100%
+        );
+    border: 1.5px solid color-mix(in srgb, var(--pink-silk) 70%, var(--white));
+    border-radius: 2rem 2.6rem 2.2rem 2.4rem;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.7) inset,
+        0 18px 48px rgba(70, 71, 25, 0.12),
+        0 4px 14px rgba(89, 30, 42, 0.06);
+    backdrop-filter: blur(10px);
+}
+
+.access-gate-card .eyebrow {
+    color: var(--velvet);
+    letter-spacing: 0.22em;
 }
 
 .access-gate-card h2 {
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.65rem;
     font-family: var(--script);
     font-weight: 600;
-    font-size: clamp(2.8rem, 8vw, 3.6rem);
+    font-size: clamp(3rem, 9vw, 3.9rem);
     letter-spacing: -0.01em;
     text-transform: none;
+    color: var(--moss);
 }
 
 .access-gate-card > p {
-    margin-bottom: 1.8rem;
+    margin-bottom: 1.75rem;
     font-family: var(--script);
     font-size: 1.35rem;
     line-height: 1.4;
+    color: var(--muted);
 }
 
 .access-gate-form {
     display: grid;
-    gap: 14px;
+    gap: 12px;
 }
 
 .access-gate-form input {
     width: 100%;
-    padding: 14px 16px;
-    border: 1px solid var(--border);
-    background: var(--white);
+    padding: 15px 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.85);
     color: var(--text);
-    font: inherit;
-    letter-spacing: 0.12em;
+    font-family: var(--script);
+    font-size: 1.35rem;
+    letter-spacing: 0.06em;
     text-align: center;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.access-gate-form input:focus {
+    border-color: var(--pink-silk);
+    box-shadow: 0 0 0 3px rgba(214, 166, 177, 0.35);
 }
 
 .access-gate-form input::placeholder {
-    letter-spacing: 0;
-    color: var(--muted);
+    letter-spacing: 0.02em;
+    color: color-mix(in srgb, var(--muted) 70%, var(--pink-silk));
+    font-size: 1.2rem;
 }
 
 .access-gate-error {
     color: var(--velvet);
-    font-size: 0.9rem;
+    font-family: var(--script);
+    font-size: 1.1rem;
 }
 
 .access-gate-form .button {
     width: 100%;
-    margin-top: 4px;
+    margin-top: 6px;
+    border-radius: 999px;
+    background: var(--velvet);
+    border-color: var(--velvet);
+    font-size: 1.35rem;
+    letter-spacing: 0.14em;
+}
+
+.access-gate-form .button:hover {
+    background: transparent;
+    color: var(--velvet);
 }
 
 
@@ -268,9 +340,8 @@ body.is-locked .site {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: rgba(250, 246, 247, 0.94);
-    border-bottom: 1px solid rgba(70, 71, 25, 0.1);
-    backdrop-filter: blur(12px);
+    background: transparent;
+    border-bottom: none;
 }
 
 .navigation {
@@ -373,31 +444,47 @@ body.is-locked .site {
 
 
 /* =========================================
+   INVITE BAND (letter + agenda share one wash)
+   ========================================= */
+
+.invite-band {
+    /* Sit behind the sticky transparent nav from the first paint */
+    margin-top: -78px;
+    padding-top: 78px;
+
+    background:
+        radial-gradient(
+            circle at 18% 18%,
+            rgba(214, 166, 177, 0.55),
+            transparent 42%
+        ),
+        radial-gradient(
+            circle at 78% 72%,
+            rgba(214, 166, 177, 0.4),
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at 88% 88%,
+            rgba(180, 166, 75, 0.18),
+            transparent 32%
+        ),
+        var(--cream);
+}
+
+
+/* =========================================
    HERO
    ========================================= */
 
 .hero {
     min-height: calc(100vh - 78px);
-    padding: 20px;
+    padding: 20px 20px 0;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     text-align: center;
-
-    background:
-        radial-gradient(
-            circle at 20% 20%,
-            rgba(214, 166, 177, 0.35),
-            transparent 35%
-        ),
-        radial-gradient(
-            circle at 80% 80%,
-            rgba(180, 166, 75, 0.22),
-            transparent 35%
-        ),
-        var(--cream);
 }
 
 .welcome-letter {
@@ -557,15 +644,8 @@ body.is-locked .site {
    ========================================= */
 
 .schedule-section {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 100px 24px;
-}
-
-.schedule-section .section-heading {
-    text-align: center;
-    max-width: 650px;
-    margin: 0 auto 40px;
+    margin: 0;
+    padding: 0 24px 100px;
 }
 
 .agenda {
@@ -588,11 +668,7 @@ body.is-locked .site {
 @media (max-width: 700px) {
 
     .schedule-section {
-        padding: 70px 12px;
-    }
-
-    .schedule-section .section-heading {
-        margin-bottom: 24px;
+        padding: 0 12px 70px;
     }
 
     .agenda {
@@ -623,7 +699,7 @@ body.is-locked .site {
    ========================================= */
 
 .section-cream {
-    background: var(--soft-pink);
+    background: rgba(244, 234, 237, 0.72);
 }
 
 .info-links {
@@ -684,6 +760,10 @@ body.is-locked .site {
    FAQ
    ========================================= */
 
+#faqs.section {
+    padding-top: 55px;
+}
+
 .faq-list {
     border-top: 1px solid var(--border);
 }
@@ -695,13 +775,15 @@ body.is-locked .site {
 .faq-list summary {
     position: relative;
 
-    padding: 25px 45px 25px 5px;
+    padding: 22px 45px 22px 5px;
 
     cursor: pointer;
 
     font-family: var(--serif);
-    font-size: 1.25rem;
-    color: var(--moss);
+    font-size: clamp(1.55rem, 2.8vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text);
 
     list-style: none;
 }
@@ -720,6 +802,7 @@ body.is-locked .site {
     font-family: var(--sans);
     font-size: 1.5rem;
     font-weight: 300;
+    color: var(--text);
 
     transform: translateY(-50%);
     transition: transform 0.2s ease;
@@ -732,6 +815,10 @@ body.is-locked .site {
 .faq-list details p {
     max-width: 600px;
     padding: 0 45px 25px 5px;
+
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--text);
 }
 
 
@@ -763,33 +850,6 @@ body.is-locked .site {
 
 
 /* =========================================
-   FOOTER
-   ========================================= */
-
-.site-footer {
-    padding: 45px 20px;
-
-    background: var(--moss);
-    color: rgba(255, 255, 255, 0.65);
-
-    text-align: center;
-}
-
-.site-footer p {
-    color: rgba(255, 255, 255, 0.65);
-    font-size: 0.85rem;
-}
-
-.footer-names {
-    margin-bottom: 5px;
-
-    font-family: var(--serif);
-    font-size: 1.5rem !important;
-    color: var(--white) !important;
-}
-
-
-/* =========================================
    RESPONSIVE
    ========================================= */
 
@@ -797,6 +857,11 @@ body.is-locked .site {
 
     .navigation {
         min-height: 70px;
+    }
+
+    .invite-band {
+        margin-top: -70px;
+        padding-top: 70px;
     }
 
     .navigation-links {
@@ -812,9 +877,8 @@ body.is-locked .site {
 
         padding: 10px 20px 20px;
 
-        background: var(--warm-white);
-        border-bottom: 1px solid var(--border);
-        box-shadow: var(--shadow);
+        background: var(--cream);
+        border-bottom: 1px solid rgba(70, 71, 25, 0.1);
     }
 
     .navigation-links li {
@@ -854,7 +918,7 @@ body.is-locked .site {
 
     .hero {
         min-height: calc(100vh - 70px);
-        padding: 12px 12px 20px;
+        padding: 12px 12px 0;
     }
 
     .welcome-letter {
@@ -897,7 +961,7 @@ body.is-locked .site {
     }
 
     .hero {
-        padding: 60px 15px;
+        padding: 60px 15px 0;
     }
 
     .info-links > a {
