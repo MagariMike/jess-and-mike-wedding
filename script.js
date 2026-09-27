@@ -67,23 +67,6 @@ function clearError() {
 }
 
 
-function displayName(name) {
-    // Drop role notes like "(Groom)" / "(Bride)" from the greeting
-    return String(name).replace(/\s*\([^)]*\)\s*$/, '').trim();
-}
-
-
-function personalizeWelcome(guest) {
-    const greeting = document.querySelector('[data-guest-greeting]');
-
-    if (!greeting) {
-        return;
-    }
-
-    greeting.textContent = `Hey ${displayName(guest.name)}!`;
-}
-
-
 function layoutTimeline() {
     const items = document.querySelectorAll('.timeline-item');
 
@@ -141,7 +124,6 @@ async function loadView(access) {
 
 async function unlockSite(guest) {
     await loadView(guest.access);
-    personalizeWelcome(guest);
 
     document.body.classList.remove('is-locked');
     accessGate.hidden = true;
