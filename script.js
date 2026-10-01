@@ -153,7 +153,7 @@ function launchConfetti() {
 
     const ctx = canvas.getContext('2d');
     const pieces = [];
-    const duration = 9000;
+    const duration = 14000;
     const start = performance.now();
     let width = 0;
     let height = 0;
@@ -199,7 +199,7 @@ function launchConfetti() {
 
     function frame(now) {
         const elapsed = now - start;
-        const fadeStart = duration * 0.8;
+        const fadeStart = duration * 0.88;
 
         ctx.clearRect(0, 0, width, height);
 
