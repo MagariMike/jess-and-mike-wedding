@@ -108,6 +108,28 @@ function setupMobileMenu() {
 }
 
 
+function setupLogout() {
+    const logoutButton = document.querySelector('.nav-logout');
+
+    if (!logoutButton) {
+        return;
+    }
+
+    logoutButton.addEventListener('click', () => {
+        logout();
+    });
+}
+
+
+function logout() {
+    localStorage.removeItem(ACCESS_STORAGE_KEY);
+    siteRoot.replaceChildren();
+    accessInput.value = '';
+    clearError();
+    lockSite();
+}
+
+
 async function loadView(access) {
     const viewPath = VIEW_FILES[access];
 
@@ -131,6 +153,7 @@ async function loadView(access) {
     siteRoot.replaceChildren(...doc.body.childNodes);
 
     setupMobileMenu();
+    setupLogout();
     layoutTimeline();
 }
 

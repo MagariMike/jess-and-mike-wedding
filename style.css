@@ -378,7 +378,8 @@ body.is-locked .site {
     gap: 2rem;
 }
 
-.navigation-links a {
+.navigation-links a,
+.navigation-links .nav-logout {
     position: relative;
 
     color: var(--moss);
@@ -390,7 +391,15 @@ body.is-locked .site {
     transition: color 0.2s ease;
 }
 
-.navigation-links a:not(.nav-rsvp)::after {
+.navigation-links .nav-logout {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.navigation-links a:not(.nav-rsvp)::after,
+.navigation-links .nav-logout::after {
     content: "";
 
     position: absolute;
@@ -408,12 +417,14 @@ body.is-locked .site {
     transition: transform 0.25s ease;
 }
 
-.navigation-links a:not(.nav-rsvp):hover::after {
+.navigation-links a:not(.nav-rsvp):hover::after,
+.navigation-links .nav-logout:hover::after {
     transform: scaleX(1);
     transform-origin: left;
 }
 
-.navigation-links a:hover {
+.navigation-links a:hover,
+.navigation-links .nav-logout:hover {
     color: var(--velvet);
 }
 
@@ -892,18 +903,30 @@ body.is-locked .site {
         width: 100%;
     }
 
-    .navigation-links a {
+    .navigation-links a,
+    .navigation-links .nav-logout {
         display: block;
+        width: 100%;
         padding: 14px 5px;
+        text-align: left;
     }
 
-    .navigation-links a:not(.nav-rsvp)::after {
+    .navigation-links a:not(.nav-rsvp)::after,
+    .navigation-links .nav-logout::after {
         display: none;
     }
 
-    .nav-rsvp {
-        margin-top: 8px;
-        text-align: center;
+    .navigation-links .nav-rsvp {
+        margin-top: 0;
+        padding: 14px 5px;
+        border: 0;
+        border-radius: 0;
+        text-align: left;
+    }
+
+    .navigation-links .nav-rsvp:hover {
+        background: transparent;
+        color: var(--velvet) !important;
     }
 
     .menu-toggle {
