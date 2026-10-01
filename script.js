@@ -2,6 +2,9 @@ import { GUESTS } from './codes.js';
 
 const ACCESS_STORAGE_KEY = 'weddingAccess';
 
+/* Bump when shipping HTML/CSS/JS so phones pick up fresh assets */
+const ASSET_VERSION = '20261001';
+
 const VIEW_FILES = {
     full: './views/full.html',
     evening: './views/evening.html',
@@ -31,7 +34,9 @@ const accessError = document.querySelector('#access-error');
 const loadedViews = new Map();
 let confettiRunning = false;
 let rsvpConfettiTimer = null;
+let rsvpConfettiObserver = null;
 let countdownTimer = null;
+let countdownVisibilityHandler = null;
 
 
 function findGuest(code) {
@@ -127,51 +132,46 @@ function padCountdown(value) {
 }
 
 
-function updateCountdown(root) {
-    const targetMs = Date.parse(root.dataset.weddingDate);
+function parseWeddingDate(value) {
+    const raw = String(value || '').trim();
+    const match = raw.match(
+        /^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2})(?::(\d{2}))?)?/
+    );
 
-    if (Number.isNaN(targetMs)) {
-        return;
+    if (!match) {
+        return NaN;
     }
 
-    const remaining = Math.max(0, targetMs - Date.now());
-    const totalSeconds = Math.floor(remaining / 1000);
+    const year = Number(match[1]);
+    const month = Number(match[2]) - 1;
+    const day = Number(match[3]);
+    const hours = Number(match[4] || 0);
+    const minutes = Number(match[5] || 0);
+    const seconds = Number(match[6] || 0);
 
-    const days = Math.floor(totalSeconds / 86400);
-    const hours = Math.floor((totalSeconds % 86400) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    const daysEl = root.querySelector('[data-unit="days"]');
-    const hoursEl = root.querySelector('[data-unit="hours"]');
-    const minutesEl = root.querySelector('[data-unit="minutes"]');
-    const secondsEl = root.querySelector('[data-unit="seconds"]');
-
-    if (daysEl) {
-        daysEl.textContent = String(days);
-    }
-
-    if (hoursEl) {
-        hoursEl.textContent = padCountdown(hours);
-    }
-
-    if (minutesEl) {
-        minutesEl.textContent = padCountdown(minutes);
-    }
-
-    if (secondsEl) {
-        secondsEl.textContent = padCountdown(seconds);
-    }
-
-    root.classList.toggle('is-complete', remaining === 0);
+    // Construct locally — avoids Safari Date.parse quirks with ISO strings
+    return new Date(year, month, day, hours, minutes, seconds).getTime();
 }
 
 
-function setupCountdown() {
+function clearCountdown() {
     if (countdownTimer) {
         clearInterval(countdownTimer);
         countdownTimer = null;
     }
+
+    if (countdownVisibilityHandler) {
+        document.removeEventListener(
+            'visibilitychange',
+            countdownVisibilityHandler
+        );
+        countdownVisibilityHandler = null;
+    }
+}
+
+
+function setupCountdown() {
+    clearCountdown();
 
     const root = document.querySelector('.countdown');
 
@@ -179,8 +179,81 @@ function setupCountdown() {
         return;
     }
 
-    updateCountdown(root);
-    countdownTimer = setInterval(() => updateCountdown(root), 1000);
+    const targetMs = parseWeddingDate(root.dataset.weddingDate);
+
+    if (Number.isNaN(targetMs)) {
+        return;
+    }
+
+    const units = {
+        days: root.querySelector('[data-unit="days"]'),
+        hours: root.querySelector('[data-unit="hours"]'),
+        minutes: root.querySelector('[data-unit="minutes"]'),
+        seconds: root.querySelector('[data-unit="seconds"]')
+    };
+
+    const last = {
+        days: null,
+        hours: null,
+        minutes: null,
+        seconds: null
+    };
+
+    function writeUnit(key, value, padded) {
+        const el = units[key];
+
+        if (!el || value === last[key]) {
+            return;
+        }
+
+        el.textContent = padded ? padCountdown(value) : String(value);
+        last[key] = value;
+    }
+
+    function tick() {
+        const remaining = Math.max(0, targetMs - Date.now());
+        const totalSeconds = Math.floor(remaining / 1000);
+
+        writeUnit('days', Math.floor(totalSeconds / 86400), false);
+        writeUnit('hours', Math.floor((totalSeconds % 86400) / 3600), true);
+        writeUnit('minutes', Math.floor((totalSeconds % 3600) / 60), true);
+        writeUnit('seconds', totalSeconds % 60, true);
+
+        if (remaining === 0) {
+            root.classList.add('is-complete');
+            clearCountdown();
+        }
+    }
+
+    function startTimer() {
+        if (countdownTimer || document.hidden) {
+            return;
+        }
+
+        tick();
+        countdownTimer = setInterval(tick, 1000);
+    }
+
+    function stopTimer() {
+        if (!countdownTimer) {
+            return;
+        }
+
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+    }
+
+    countdownVisibilityHandler = () => {
+        if (document.hidden) {
+            stopTimer();
+            return;
+        }
+
+        startTimer();
+    };
+
+    document.addEventListener('visibilitychange', countdownVisibilityHandler);
+    startTimer();
 }
 
 
@@ -201,7 +274,7 @@ async function loadView(access) {
     }
 
     if (!loadedViews.has(access)) {
-        const response = await fetch(viewPath);
+        const response = await fetch(`${viewPath}?v=${ASSET_VERSION}`);
 
         if (!response.ok) {
             throw new Error(`Could not load ${viewPath}`);
@@ -412,22 +485,49 @@ function burstFromElement(element, count = 100) {
 }
 
 
-function burstRsvpConfetti() {
-    burstFromElement(document.querySelector('#rsvp .button'), 100);
-}
-
-
-function setupRsvpConfetti() {
+function clearRsvpConfetti() {
     if (rsvpConfettiTimer) {
         clearInterval(rsvpConfettiTimer);
         rsvpConfettiTimer = null;
     }
 
-    if (prefersReducedMotion() || !document.querySelector('#rsvp .button')) {
+    if (rsvpConfettiObserver) {
+        rsvpConfettiObserver.disconnect();
+        rsvpConfettiObserver = null;
+    }
+}
+
+
+function setupRsvpConfetti() {
+    clearRsvpConfetti();
+
+    const button = document.querySelector('#rsvp .button');
+
+    if (prefersReducedMotion() || !button) {
         return;
     }
 
-    rsvpConfettiTimer = setInterval(burstRsvpConfetti, 5000);
+    // Phones get fewer particles / slower cadence so scrolling stays smooth
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    const particleCount = isCoarsePointer ? 55 : 90;
+    const intervalMs = isCoarsePointer ? 10000 : 7000;
+    let rsvpInView = false;
+
+    rsvpConfettiObserver = new IntersectionObserver(
+        (entries) => {
+            rsvpInView = entries.some((entry) => entry.isIntersecting);
+        },
+        { threshold: 0.35 }
+    );
+    rsvpConfettiObserver.observe(button);
+
+    rsvpConfettiTimer = setInterval(() => {
+        if (!rsvpInView || document.hidden) {
+            return;
+        }
+
+        burstFromElement(button, particleCount);
+    }, intervalMs);
 }
 
 
@@ -442,15 +542,8 @@ async function unlockSite(guest) {
 
 
 function lockSite() {
-    if (rsvpConfettiTimer) {
-        clearInterval(rsvpConfettiTimer);
-        rsvpConfettiTimer = null;
-    }
-
-    if (countdownTimer) {
-        clearInterval(countdownTimer);
-        countdownTimer = null;
-    }
+    clearRsvpConfetti();
+    clearCountdown();
 
     document.body.classList.add('is-locked');
     accessGate.hidden = false;

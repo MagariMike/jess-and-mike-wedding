@@ -772,48 +772,60 @@ body.is-locked .site {
    COUNTDOWN
    ========================================= */
 
-.countdown-section {
+#countdown.section {
     padding-top: 48px;
     padding-bottom: 40px;
 }
 
 .countdown-section .section-heading {
-    margin-bottom: 40px;
+    margin-bottom: 28px;
 }
 
 .countdown {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
     max-width: 560px;
     margin: 0 auto;
 }
 
 .countdown-unit {
     display: flex;
+    flex: 1 1 0;
     flex-direction: column;
     align-items: center;
-    gap: 0.35rem;
-    padding: 1.1rem 0.5rem 1rem;
+    justify-content: center;
+    gap: 0.3rem;
+    min-width: 0;
+    padding: 0.9rem 0.35rem 0.8rem;
     border-top: 1px solid var(--pink-silk);
     border-bottom: 1px solid var(--pink-silk);
 }
 
 .countdown-value {
+    display: block;
+    width: 100%;
     font-family: var(--script);
-    font-size: clamp(2.6rem, 8vw, 3.8rem);
+    font-size: clamp(2.1rem, 7vw, 3.6rem);
     font-weight: 600;
     line-height: 1;
+    text-align: center;
     color: var(--velvet);
 }
 
 .countdown-label {
+    display: block;
     font-family: var(--hand);
-    font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+    font-size: clamp(0.95rem, 2.2vw, 1.25rem);
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
     text-transform: uppercase;
+    text-align: center;
     color: var(--moss);
+    white-space: nowrap;
 }
 
 .countdown.is-complete .countdown-value {
@@ -1060,11 +1072,20 @@ body.is-locked .site {
     }
 
     .countdown {
-        gap: 8px 10px;
+        gap: 6px;
     }
 
     .countdown-unit {
-        padding: 0.85rem 0.25rem 0.75rem;
+        padding: 0.7rem 0.15rem 0.65rem;
+    }
+
+    .countdown-value {
+        font-size: clamp(1.7rem, 8.5vw, 2.4rem);
+    }
+
+    .countdown-label {
+        font-size: clamp(0.85rem, 3.2vw, 1.05rem);
+        letter-spacing: 0.04em;
     }
 }
 
