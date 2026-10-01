@@ -165,9 +165,13 @@ function launchConfetti(options = {}) {
     const ctx = canvas.getContext('2d');
     const pieces = [];
     const start = performance.now();
+    // Physics values were tuned for ~60fps; scale by dt so mobile
+    // (often 30fps / throttled) falls at the same real-world speed.
+    const FRAME_MS = 1000 / 60;
     let width = 0;
     let height = 0;
     let dpr = 1;
+    let lastFrame = start;
 
     function resize() {
         dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -243,6 +247,9 @@ function launchConfetti(options = {}) {
 
     function frame(now) {
         const elapsed = now - start;
+        // Cap so a backgrounded tab doesn't teleport pieces on resume
+        const dt = Math.min((now - lastFrame) / FRAME_MS, 3);
+        lastFrame = now;
         const fadeStart = duration * (mode === 'explode' ? 0.55 : 0.88);
 
         ctx.clearRect(0, 0, width, height);
@@ -250,12 +257,12 @@ function launchConfetti(options = {}) {
         for (let i = pieces.length - 1; i >= 0; i -= 1) {
             const p = pieces[i];
 
-            p.vy = Math.min(p.vy + p.gravity, p.maxVy);
-            p.vx *= p.drag;
-            p.x += p.vx + Math.sin(p.wobble) * p.wobbleAmp;
-            p.y += p.vy;
-            p.rotation += p.spin;
-            p.wobble += p.wobbleSpeed;
+            p.vy = Math.min(p.vy + p.gravity * dt, p.maxVy);
+            p.vx *= Math.pow(p.drag, dt);
+            p.x += (p.vx + Math.sin(p.wobble) * p.wobbleAmp) * dt;
+            p.y += p.vy * dt;
+            p.rotation += p.spin * dt;
+            p.wobble += p.wobbleSpeed * dt;
 
             if (elapsed > fadeStart) {
                 p.opacity = Math.max(
