@@ -234,8 +234,8 @@ body.is-locked .site {
 .access-gate-card {
     position: relative;
     z-index: 1;
-    width: min(100%, 420px);
-    padding: 2.75rem 2.25rem 2.5rem;
+    width: min(100%, 378px);
+    padding: 3.3rem 2rem 3rem;
     text-align: center;
 
     background:
@@ -245,8 +245,8 @@ body.is-locked .site {
             rgba(250, 246, 247, 0.92) 55%,
             rgba(244, 234, 237, 0.88) 100%
         );
-    border: 1.5px solid color-mix(in srgb, var(--pink-silk) 70%, var(--white));
-    border-radius: 2rem 2.6rem 2.2rem 2.4rem;
+    border: 1.5px solid var(--text);
+    border-radius: 8px;
     box-shadow:
         0 1px 0 rgba(255, 255, 255, 0.7) inset,
         0 18px 48px rgba(70, 71, 25, 0.12),
@@ -286,7 +286,7 @@ body.is-locked .site {
     width: 100%;
     padding: 15px 20px;
     border: 1.5px solid var(--border);
-    border-radius: 999px;
+    border-radius: 8px;
     background: rgba(255, 255, 255, 0.85);
     color: var(--text);
     font-family: var(--script);
@@ -319,16 +319,17 @@ body.is-locked .site {
 .access-gate-form .button {
     width: 100%;
     margin-top: 6px;
-    border-radius: 999px;
-    background: var(--velvet);
+    border-radius: 8px;
+    background: transparent;
     border-color: var(--velvet);
+    color: var(--velvet);
     font-size: 1.35rem;
     letter-spacing: 0.14em;
 }
 
 .access-gate-form .button:hover {
-    background: transparent;
-    color: var(--velvet);
+    background: var(--velvet);
+    color: var(--white);
 }
 
 
@@ -645,7 +646,7 @@ body.is-locked .site {
 
 .schedule-section {
     margin: 0;
-    padding: 0 24px 100px;
+    padding: 0 24px 48px;
 }
 
 .agenda {
@@ -668,7 +669,7 @@ body.is-locked .site {
 @media (max-width: 700px) {
 
     .schedule-section {
-        padding: 0 12px 70px;
+        padding: 0 12px 36px;
     }
 
     .agenda {
@@ -761,7 +762,11 @@ body.is-locked .site {
    ========================================= */
 
 #faqs.section {
-    padding-top: 55px;
+    padding-top: 24px;
+}
+
+#stay.section {
+    padding-bottom: 40px;
 }
 
 .faq-list {
@@ -816,8 +821,10 @@ body.is-locked .site {
     max-width: 600px;
     padding: 0 45px 25px 5px;
 
-    font-size: 1.1rem;
-    line-height: 1.65;
+    font-family: var(--hand);
+    font-size: clamp(1.35rem, 2.4vw, 1.65rem);
+    font-weight: 700;
+    line-height: 1.35;
     color: var(--text);
 }
 
@@ -827,21 +834,19 @@ body.is-locked .site {
    ========================================= */
 
 .rsvp {
-    background: var(--velvet);
-    padding: 120px 0;
+    background: transparent;
+    padding: 80px 0 110px;
     text-align: center;
 }
 
-.rsvp .eyebrow,
-.rsvp h2,
-.rsvp p {
-    color: var(--white);
+.rsvp h2 {
+    color: var(--ink);
 }
 
 .rsvp p {
     max-width: 500px;
     margin: 0 auto 2rem;
-    opacity: 0.85;
+    color: var(--muted);
 }
 
 .rsvp .button {

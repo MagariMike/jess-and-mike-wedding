@@ -30,6 +30,7 @@ const accessError = document.querySelector('#access-error');
 // Cache each view after the first load so switching guests is snappy
 const loadedViews = new Map();
 let confettiRunning = false;
+let rsvpConfettiTimer = null;
 
 
 function findGuest(code) {
@@ -139,12 +140,22 @@ function prefersReducedMotion() {
 }
 
 
-function launchConfetti() {
-    if (confettiRunning || prefersReducedMotion()) {
+function launchConfetti(options = {}) {
+    if (prefersReducedMotion()) {
         return;
     }
 
-    confettiRunning = true;
+    const mode = options.mode || 'rain';
+    const duration = options.duration ?? (mode === 'explode' ? 5500 : 14000);
+
+    // Welcome rain should still avoid stacking on itself
+    if (mode === 'rain' && confettiRunning) {
+        return;
+    }
+
+    if (mode === 'rain') {
+        confettiRunning = true;
+    }
 
     const canvas = document.createElement('canvas');
     canvas.className = 'confetti-canvas';
@@ -153,7 +164,6 @@ function launchConfetti() {
 
     const ctx = canvas.getContext('2d');
     const pieces = [];
-    const duration = 14000;
     const start = performance.now();
     let width = 0;
     let height = 0;
@@ -171,6 +181,40 @@ function launchConfetti() {
     }
 
     function spawnBurst() {
+        if (mode === 'explode') {
+            const originX = options.x ?? width / 2;
+            const originY = options.y ?? height / 2;
+            const count = options.count ?? Math.min(110, Math.floor(width / 8));
+
+            for (let i = 0; i < count; i += 1) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 3.5 + Math.random() * 9;
+
+                pieces.push({
+                    x: originX + (Math.random() - 0.5) * 12,
+                    y: originY + (Math.random() - 0.5) * 8,
+                    w: 6 + Math.random() * 7,
+                    h: 8 + Math.random() * 11,
+                    color: CONFETTI_COLORS[
+                        Math.floor(Math.random() * CONFETTI_COLORS.length)
+                    ],
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - (1.5 + Math.random() * 3),
+                    maxVy: 3.2 + Math.random() * 1.4,
+                    gravity: 0.14 + Math.random() * 0.08,
+                    drag: 0.985,
+                    rotation: Math.random() * Math.PI * 2,
+                    spin: (Math.random() - 0.5) * 0.28,
+                    wobble: Math.random() * Math.PI * 2,
+                    wobbleSpeed: 0.03 + Math.random() * 0.05,
+                    wobbleAmp: 0.4 + Math.random() * 0.7,
+                    opacity: 1
+                });
+            }
+
+            return;
+        }
+
         const count = Math.min(120, Math.floor(width / 9));
 
         for (let i = 0; i < count; i += 1) {
@@ -199,7 +243,7 @@ function launchConfetti() {
 
     function frame(now) {
         const elapsed = now - start;
-        const fadeStart = duration * 0.88;
+        const fadeStart = duration * (mode === 'explode' ? 0.55 : 0.88);
 
         ctx.clearRect(0, 0, width, height);
 
@@ -228,7 +272,12 @@ function launchConfetti() {
             ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
             ctx.restore();
 
-            if (p.y > height + 40 || p.opacity <= 0) {
+            if (
+                p.y > height + 40
+                || p.x < -60
+                || p.x > width + 60
+                || p.opacity <= 0
+            ) {
                 pieces.splice(i, 1);
             }
         }
@@ -240,7 +289,10 @@ function launchConfetti() {
 
         window.removeEventListener('resize', resize);
         canvas.remove();
-        confettiRunning = false;
+
+        if (mode === 'rain') {
+            confettiRunning = false;
+        }
     }
 
     resize();
@@ -250,16 +302,57 @@ function launchConfetti() {
 }
 
 
+function burstFromElement(element, count = 100) {
+    if (!element) {
+        return;
+    }
+
+    const rect = element.getBoundingClientRect();
+
+    launchConfetti({
+        mode: 'explode',
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+        count
+    });
+}
+
+
+function burstRsvpConfetti() {
+    burstFromElement(document.querySelector('#rsvp .button'), 100);
+}
+
+
+function setupRsvpConfetti() {
+    if (rsvpConfettiTimer) {
+        clearInterval(rsvpConfettiTimer);
+        rsvpConfettiTimer = null;
+    }
+
+    if (prefersReducedMotion() || !document.querySelector('#rsvp .button')) {
+        return;
+    }
+
+    rsvpConfettiTimer = setInterval(burstRsvpConfetti, 5000);
+}
+
+
 async function unlockSite(guest) {
     await loadView(guest.access);
 
     document.body.classList.remove('is-locked');
     accessGate.hidden = true;
     launchConfetti();
+    setupRsvpConfetti();
 }
 
 
 function lockSite() {
+    if (rsvpConfettiTimer) {
+        clearInterval(rsvpConfettiTimer);
+        rsvpConfettiTimer = null;
+    }
+
     document.body.classList.add('is-locked');
     accessGate.hidden = false;
     accessInput.focus();
