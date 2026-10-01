@@ -31,6 +31,7 @@ const accessError = document.querySelector('#access-error');
 const loadedViews = new Map();
 let confettiRunning = false;
 let rsvpConfettiTimer = null;
+let countdownTimer = null;
 
 
 function findGuest(code) {
@@ -121,6 +122,68 @@ function setupLogout() {
 }
 
 
+function padCountdown(value) {
+    return String(Math.max(0, value)).padStart(2, '0');
+}
+
+
+function updateCountdown(root) {
+    const targetMs = Date.parse(root.dataset.weddingDate);
+
+    if (Number.isNaN(targetMs)) {
+        return;
+    }
+
+    const remaining = Math.max(0, targetMs - Date.now());
+    const totalSeconds = Math.floor(remaining / 1000);
+
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const daysEl = root.querySelector('[data-unit="days"]');
+    const hoursEl = root.querySelector('[data-unit="hours"]');
+    const minutesEl = root.querySelector('[data-unit="minutes"]');
+    const secondsEl = root.querySelector('[data-unit="seconds"]');
+
+    if (daysEl) {
+        daysEl.textContent = String(days);
+    }
+
+    if (hoursEl) {
+        hoursEl.textContent = padCountdown(hours);
+    }
+
+    if (minutesEl) {
+        minutesEl.textContent = padCountdown(minutes);
+    }
+
+    if (secondsEl) {
+        secondsEl.textContent = padCountdown(seconds);
+    }
+
+    root.classList.toggle('is-complete', remaining === 0);
+}
+
+
+function setupCountdown() {
+    if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+    }
+
+    const root = document.querySelector('.countdown');
+
+    if (!root) {
+        return;
+    }
+
+    updateCountdown(root);
+    countdownTimer = setInterval(() => updateCountdown(root), 1000);
+}
+
+
 function logout() {
     localStorage.removeItem(ACCESS_STORAGE_KEY);
     siteRoot.replaceChildren();
@@ -154,6 +217,7 @@ async function loadView(access) {
 
     setupMobileMenu();
     setupLogout();
+    setupCountdown();
     layoutTimeline();
 }
 
@@ -381,6 +445,11 @@ function lockSite() {
     if (rsvpConfettiTimer) {
         clearInterval(rsvpConfettiTimer);
         rsvpConfettiTimer = null;
+    }
+
+    if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
     }
 
     document.body.classList.add('is-locked');
