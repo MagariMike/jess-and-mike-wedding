@@ -72,7 +72,7 @@ export const GUESTS = [
     { name: 'Nick', code: 'kitten', access: 'full' },
     { name: 'Isabelle', code: 'python', access: 'full' },
     { name: 'Joel', code: 'echidna', access: 'full' },
-    { name: 'Noah', code: 'cheetah', access: 'full' },
+    { name: 'Livvie', code: 'cheetah', access: 'full' },
     { name: 'Hannah', code: 'glowworm', access: 'full' },
     { name: 'Phill', code: 'mink', access: 'full' },
     { name: 'Anne', code: 'whale', access: 'full' },
