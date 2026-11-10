@@ -3,7 +3,7 @@ import { GUESTS } from './codes.js';
 const ACCESS_STORAGE_KEY = 'weddingAccess';
 
 /* Bump when shipping HTML/CSS/JS so phones pick up fresh assets */
-const ASSET_VERSION = '20261001';
+const ASSET_VERSION = '20261105j';
 
 const VIEW_FILES = {
     full: './views/full.html',
@@ -536,8 +536,9 @@ async function unlockSite(guest) {
 
     document.body.classList.remove('is-locked');
     accessGate.hidden = true;
-    launchConfetti();
-    setupRsvpConfetti();
+    // Temporarily disabled so evening drawings stay visible
+    // launchConfetti();
+    // setupRsvpConfetti();
 }
 
 

@@ -12,7 +12,7 @@
 */
 
 export const GUESTS = [
-    { name: 'Mike (Groom)', code: 'otter', access: 'full' },
+    { name: 'Mike (Groom)', code: 'otter', access: 'evening' },
     { name: 'Jess (Bride)', code: 'panda', access: 'full' },
     { name: 'Debs', code: 'coot', access: 'full' },
     { name: 'Andy', code: 'waxwing', access: 'full' },

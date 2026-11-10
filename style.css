@@ -519,6 +519,133 @@ body.is-locked .site {
 
 
 /* =========================================
+   EVENING WELCOME (text invite + drawings)
+   ========================================= */
+
+.evening-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: calc(100vh - 78px);
+    padding: 36px 20px 48px;
+}
+
+.evening-drawings {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.evening-drawing {
+    position: absolute;
+    display: block;
+    width: min(42vw, 26rem);
+    height: auto;
+    opacity: 0.55;
+}
+
+.evening-drawing--hall {
+    left: -2%;
+    top: 50%;
+    width: min(65.625vw, 40.625rem); /* ~56% larger than base drawings */
+    transform: translateY(-50%);
+}
+
+.evening-drawing--car {
+    right: -2%;
+    top: 50%;
+    transform: translate(-50px, -50%);
+}
+
+.evening-drawing--sm {
+    width: min(16vw, 9.5rem);
+    opacity: 0.42;
+}
+
+.evening-drawing--couple {
+    top: 4%;
+    left: 50%;
+    width: min(18vw, 11rem);
+    transform: translateX(-50%) rotate(-4deg);
+}
+
+.evening-drawing--tower {
+    top: 10%;
+    left: 6%;
+    width: min(9vw, 5.5rem);
+    transform: rotate(3deg);
+}
+
+.evening-drawing--truck {
+    bottom: 5%;
+    right: 14%;
+    width: min(15vw, 9rem);
+    transform: rotate(6deg);
+}
+
+.evening-drawing--church {
+    bottom: 6%;
+    left: 10%;
+    width: min(14vw, 8.5rem);
+    transform: rotate(-5deg);
+}
+
+.evening-welcome {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 44rem);
+    margin: 0 auto;
+    text-align: center;
+    color: var(--ink);
+}
+
+.evening-welcome-masthead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem 0.7rem;
+    margin-bottom: clamp(1.4rem, 3vw, 2.2rem);
+}
+
+.evening-name {
+    font-family: var(--hand);
+    font-size: clamp(1.55rem, 3.6vw, 2.35rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+.evening-monogram {
+    display: block;
+    width: clamp(3.4rem, 8vw, 5rem);
+    height: auto;
+}
+
+.evening-welcome-body {
+    font-family: var(--hand);
+    font-size: clamp(1.45rem, 3.2vw, 2.05rem);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--ink);
+}
+
+.evening-welcome-body p {
+    color: inherit;
+    margin: 0 0 0.15em;
+}
+
+.evening-welcome-rsvp {
+    margin-top: 1.6rem !important;
+}
+
+
+/* =========================================
    BUTTONS
    ========================================= */
 
@@ -1023,6 +1150,60 @@ body.is-locked .site {
 
     .welcome-letter img {
         max-height: calc(100vh - 70px - 24px);
+    }
+
+    .evening-hero {
+        min-height: calc(100vh - 70px);
+        padding: 28px 16px 40px;
+    }
+
+    .evening-welcome-masthead {
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .evening-drawing {
+        width: min(48vw, 14rem);
+        opacity: 0.4;
+    }
+
+    .evening-drawing--hall {
+        left: -8%;
+        top: 58%;
+        width: min(75vw, 21.875rem); /* ~56% larger than base mobile drawings */
+    }
+
+    .evening-drawing--car {
+        right: -8%;
+        top: 42%;
+    }
+
+    .evening-drawing--sm {
+        width: min(22vw, 6.5rem);
+        opacity: 0.32;
+    }
+
+    .evening-drawing--couple {
+        top: 2%;
+        width: min(26vw, 7.5rem);
+    }
+
+    .evening-drawing--tower {
+        top: 12%;
+        left: 2%;
+        width: min(12vw, 4rem);
+    }
+
+    .evening-drawing--truck {
+        bottom: 3%;
+        right: 4%;
+        width: min(22vw, 6.5rem);
+    }
+
+    .evening-drawing--church {
+        bottom: 4%;
+        left: 3%;
+        width: min(20vw, 6rem);
     }
 
     h1 {
