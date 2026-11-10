@@ -540,7 +540,7 @@ body.is-locked .site {
 .evening-drawing {
     position: absolute;
     display: block;
-    width: min(42vw, 26rem);
+    width: min(33.6vw, 20.8rem); /* 20% smaller than previous base */
     height: auto;
     opacity: 0.55;
 }
@@ -548,7 +548,7 @@ body.is-locked .site {
 .evening-drawing--hall {
     left: -2%;
     top: 50%;
-    width: min(65.625vw, 40.625rem); /* ~56% larger than base drawings */
+    width: min(52.5vw, 32.5rem); /* 20% smaller than previous hall size */
     transform: translateY(-50%);
 }
 
@@ -556,39 +556,6 @@ body.is-locked .site {
     right: -2%;
     top: 50%;
     transform: translate(-50px, -50%);
-}
-
-.evening-drawing--sm {
-    width: min(16vw, 9.5rem);
-    opacity: 0.42;
-}
-
-.evening-drawing--couple {
-    top: 4%;
-    left: 50%;
-    width: min(18vw, 11rem);
-    transform: translateX(-50%) rotate(-4deg);
-}
-
-.evening-drawing--tower {
-    top: 10%;
-    left: 6%;
-    width: min(9vw, 5.5rem);
-    transform: rotate(3deg);
-}
-
-.evening-drawing--truck {
-    bottom: 5%;
-    right: 14%;
-    width: min(15vw, 9rem);
-    transform: rotate(6deg);
-}
-
-.evening-drawing--church {
-    bottom: 6%;
-    left: 10%;
-    width: min(14vw, 8.5rem);
-    transform: rotate(-5deg);
 }
 
 .evening-welcome {
@@ -1163,47 +1130,19 @@ body.is-locked .site {
     }
 
     .evening-drawing {
-        width: min(48vw, 14rem);
+        width: min(38.4vw, 11.2rem); /* 20% smaller than previous mobile base */
         opacity: 0.4;
     }
 
     .evening-drawing--hall {
         left: -8%;
         top: 58%;
-        width: min(75vw, 21.875rem); /* ~56% larger than base mobile drawings */
+        width: min(60vw, 17.5rem); /* 20% smaller than previous mobile hall */
     }
 
     .evening-drawing--car {
         right: -8%;
         top: 42%;
-    }
-
-    .evening-drawing--sm {
-        width: min(22vw, 6.5rem);
-        opacity: 0.32;
-    }
-
-    .evening-drawing--couple {
-        top: 2%;
-        width: min(26vw, 7.5rem);
-    }
-
-    .evening-drawing--tower {
-        top: 12%;
-        left: 2%;
-        width: min(12vw, 4rem);
-    }
-
-    .evening-drawing--truck {
-        bottom: 3%;
-        right: 4%;
-        width: min(22vw, 6.5rem);
-    }
-
-    .evening-drawing--church {
-        bottom: 4%;
-        left: 3%;
-        width: min(20vw, 6rem);
     }
 
     h1 {
