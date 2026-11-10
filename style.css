@@ -594,7 +594,7 @@ body.is-locked .site {
 
 .evening-welcome-body {
     font-family: var(--hand);
-    font-size: clamp(1.45rem, 3.2vw, 2.05rem);
+    font-size: clamp(1.625rem, 3.2vw, 2.05rem);
     font-weight: 700;
     line-height: 1.35;
     letter-spacing: 0.01em;
