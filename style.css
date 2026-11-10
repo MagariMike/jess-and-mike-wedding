@@ -1129,20 +1129,8 @@ body.is-locked .site {
         gap: 0.2rem;
     }
 
-    .evening-drawing {
-        width: min(38.4vw, 11.2rem); /* 20% smaller than previous mobile base */
-        opacity: 0.4;
-    }
-
-    .evening-drawing--hall {
-        left: -8%;
-        top: 58%;
-        width: min(60vw, 17.5rem); /* 20% smaller than previous mobile hall */
-    }
-
-    .evening-drawing--car {
-        right: -8%;
-        top: 42%;
+    .evening-drawings {
+        display: none;
     }
 
     h1 {
