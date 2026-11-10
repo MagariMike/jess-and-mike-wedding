@@ -3,7 +3,7 @@ import { GUESTS } from './codes.js';
 const ACCESS_STORAGE_KEY = 'weddingAccess';
 
 /* Bump when shipping HTML/CSS/JS so phones pick up fresh assets */
-const ASSET_VERSION = '20261110a';
+const ASSET_VERSION = '20261110e';
 
 const VIEW_FILES = {
     full: './views/full.html',

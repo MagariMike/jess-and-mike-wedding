@@ -428,6 +428,11 @@ body.is-locked .site {
     color: var(--velvet);
 }
 
+.nav-rsvp-wrap {
+    position: relative;
+    overflow: visible;
+}
+
 .nav-rsvp {
     padding: 10px 18px;
     border: 1px solid var(--moss);
@@ -493,8 +498,10 @@ body.is-locked .site {
     padding: 20px 20px 0;
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0;
 
     text-align: center;
 }
@@ -607,8 +614,302 @@ body.is-locked .site {
     margin: 0 0 0.15em;
 }
 
-.evening-welcome-rsvp {
-    margin-top: 1.6rem !important;
+/* =========================================
+   RSVP ATTENTION ARROWS
+   ========================================= */
+
+.rsvp-arrows {
+    pointer-events: none;
+}
+
+.rsvp-arrow {
+    display: block;
+    overflow: visible;
+    color: var(--matcha);
+    opacity: 0;
+    animation: rsvp-wink-left 2.1s ease-in-out infinite;
+}
+
+.rsvp-arrow path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: rsvp-sketch 2.1s ease-in-out infinite;
+}
+
+.rsvp-arrow--matcha {
+    color: var(--matcha);
+}
+
+.rsvp-arrow--velvet {
+    color: var(--velvet);
+    animation-name: rsvp-wink-right;
+    animation-delay: 0.08s;
+}
+
+.rsvp-arrow--velvet path {
+    animation-delay: 0.08s;
+}
+
+.rsvp-arrow--pink {
+    color: var(--pink-silk);
+    animation-name: rsvp-wink-down;
+    animation-delay: 0.04s;
+}
+
+.rsvp-arrow--pink path {
+    animation-delay: 0.04s;
+}
+
+.rsvp-arrow--moss {
+    color: var(--moss);
+    animation-name: rsvp-wink-up;
+    animation-delay: 0.12s;
+}
+
+.rsvp-arrow--moss path {
+    animation-delay: 0.12s;
+}
+
+/* Short pause, then sketch in, nudge, fade — repeats quickly */
+@keyframes rsvp-sketch {
+    0%,
+    8% {
+        stroke-dashoffset: 1;
+    }
+
+    28%,
+    68% {
+        stroke-dashoffset: 0;
+    }
+
+    82%,
+    100% {
+        stroke-dashoffset: 1;
+    }
+}
+
+@keyframes rsvp-wink-left {
+    0%,
+    8% {
+        opacity: 0;
+        transform: translate(0, -50%) rotate(-10deg);
+    }
+
+    22% {
+        opacity: 1;
+        transform: translate(1px, -50%) rotate(-6deg);
+    }
+
+    40% {
+        opacity: 1;
+        transform: translate(3px, -50%) rotate(-4deg);
+    }
+
+    62% {
+        opacity: 1;
+        transform: translate(2px, -50%) rotate(-6deg);
+    }
+
+    78%,
+    100% {
+        opacity: 0;
+        transform: translate(0, -50%) rotate(-10deg);
+    }
+}
+
+@keyframes rsvp-wink-right {
+    0%,
+    8% {
+        opacity: 0;
+        transform: translate(0, -50%) rotate(10deg);
+    }
+
+    22% {
+        opacity: 1;
+        transform: translate(-1px, -50%) rotate(6deg);
+    }
+
+    40% {
+        opacity: 1;
+        transform: translate(-3px, -50%) rotate(4deg);
+    }
+
+    62% {
+        opacity: 1;
+        transform: translate(-2px, -50%) rotate(6deg);
+    }
+
+    78%,
+    100% {
+        opacity: 0;
+        transform: translate(0, -50%) rotate(10deg);
+    }
+}
+
+@keyframes rsvp-wink-down {
+    0%,
+    8% {
+        opacity: 0;
+        transform: translate(-50%, 0) rotate(-4deg);
+    }
+
+    22% {
+        opacity: 1;
+        transform: translate(-50%, 1px) rotate(-2deg);
+    }
+
+    40% {
+        opacity: 1;
+        transform: translate(-50%, 3px) rotate(0deg);
+    }
+
+    62% {
+        opacity: 1;
+        transform: translate(-50%, 2px) rotate(-2deg);
+    }
+
+    78%,
+    100% {
+        opacity: 0;
+        transform: translate(-50%, 0) rotate(-4deg);
+    }
+}
+
+@keyframes rsvp-wink-up {
+    0%,
+    8% {
+        opacity: 0;
+        transform: translate(-50%, 0) rotate(4deg);
+    }
+
+    22% {
+        opacity: 1;
+        transform: translate(-50%, -1px) rotate(2deg);
+    }
+
+    40% {
+        opacity: 1;
+        transform: translate(-50%, -3px) rotate(0deg);
+    }
+
+    62% {
+        opacity: 1;
+        transform: translate(-50%, -2px) rotate(2deg);
+    }
+
+    78%,
+    100% {
+        opacity: 0;
+        transform: translate(-50%, 0) rotate(4deg);
+    }
+}
+
+/* Desktop: arrows around the sticky nav RSVP */
+.rsvp-arrows--nav {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.rsvp-arrow--nav-left,
+.rsvp-arrow--nav-right,
+.rsvp-arrow--nav-top,
+.rsvp-arrow--nav-bottom {
+    position: absolute;
+}
+
+.rsvp-arrow--nav-left,
+.rsvp-arrow--nav-right {
+    top: 50%;
+    width: 2.35rem;
+}
+
+.rsvp-arrow--nav-left {
+    left: calc(-1.55rem - 2px);
+}
+
+.rsvp-arrow--nav-right {
+    right: calc(-1.55rem - 2px);
+}
+
+.rsvp-arrow--nav-top,
+.rsvp-arrow--nav-bottom {
+    left: 50%;
+    width: 1.7rem;
+}
+
+.rsvp-arrow--nav-top {
+    bottom: calc(100% + 2px);
+}
+
+.rsvp-arrow--nav-bottom {
+    top: calc(100% + 2px);
+}
+
+/* Mobile: RSVP callout under the welcome */
+.rsvp-spotlight {
+    display: none;
+}
+
+.rsvp-spotlight-stage {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 2rem 2.7rem;
+}
+
+.rsvp-arrows--spotlight {
+    position: absolute;
+    inset: 0;
+}
+
+.rsvp-arrow--spot-left,
+.rsvp-arrow--spot-right,
+.rsvp-arrow--spot-top,
+.rsvp-arrow--spot-bottom {
+    position: absolute;
+}
+
+.rsvp-arrow--spot-left,
+.rsvp-arrow--spot-right {
+    top: 50%;
+    width: 2.5rem;
+}
+
+.rsvp-arrow--spot-left {
+    left: calc(0.15rem - 2px);
+}
+
+.rsvp-arrow--spot-right {
+    right: calc(0.15rem - 2px);
+}
+
+.rsvp-arrow--spot-top,
+.rsvp-arrow--spot-bottom {
+    left: 50%;
+    width: 1.85rem;
+}
+
+.rsvp-arrow--spot-top {
+    top: auto;
+    bottom: calc(50% + 26px + 2px);
+}
+
+.rsvp-arrow--spot-bottom {
+    bottom: auto;
+    top: calc(50% + 26px + 2px);
+}
+
+.rsvp-spotlight-button {
+    position: relative;
+    z-index: 1;
 }
 
 
@@ -1088,6 +1389,10 @@ body.is-locked .site {
         color: var(--velvet) !important;
     }
 
+    .rsvp-arrows--nav {
+        display: none;
+    }
+
     .menu-toggle {
         display: block;
     }
@@ -1106,22 +1411,34 @@ body.is-locked .site {
     }
 
     .hero {
-        min-height: calc(100vh - 70px);
-        padding: 12px 12px 0;
+        min-height: 0;
+        justify-content: flex-start;
+        gap: 0.35rem;
+        padding: 12px 12px 28px;
     }
 
     .welcome-letter {
         width: min(100vw - 24px, 67.2rem);
-        max-height: calc(100vh - 70px - 24px);
+        max-height: calc(100vh - 70px - 150px);
     }
 
     .welcome-letter img {
-        max-height: calc(100vh - 70px - 24px);
+        max-height: calc(100vh - 70px - 150px);
+    }
+
+    .rsvp-spotlight {
+        display: block;
+        width: 100%;
+        flex-shrink: 0;
     }
 
     .evening-hero {
-        min-height: calc(100vh - 70px);
-        padding: 28px 16px 40px;
+        min-height: 0;
+        padding: 28px 16px 28px;
+    }
+
+    .evening-hero .rsvp-spotlight {
+        margin-top: 0.5rem;
     }
 
     .evening-welcome-masthead {
@@ -1164,7 +1481,15 @@ body.is-locked .site {
     }
 
     .hero {
-        padding: 60px 15px 0;
+        padding: 48px 15px 24px;
+    }
+
+    .welcome-letter {
+        max-height: calc(100vh - 70px - 170px);
+    }
+
+    .welcome-letter img {
+        max-height: calc(100vh - 70px - 170px);
     }
 
     .info-links > a {
