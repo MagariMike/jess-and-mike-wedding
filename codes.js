@@ -6,9 +6,10 @@
   access = "full", "evening", or "out-of-town"
            (which view file they see after entering their code)
            out-of-town = full day + Stay section for travelling guests
+           evening guests share one code: flamingo
 
   Codes are case-insensitive when guests type them in.
-  To add a guest, copy a line, pick an unused animal, set access.
+  To add a full / out-of-town guest, copy a line, pick an unused animal, set access.
 */
 
 export const GUESTS = [
@@ -129,51 +130,6 @@ export const GUESTS = [
     { name: 'Heather', code: 'damselfly', access: 'full' },
     { name: 'Heather\'s Husband', code: 'crane', access: 'full' },
 
-    // Evening guests
-    { name: 'Tim', code: 'warbler', access: 'evening' },
-    { name: 'Hollie', code: 'capybara', access: 'evening' },
-    { name: 'Emma', code: 'husky', access: 'evening' },
-    { name: 'Lisa', code: 'crow', access: 'evening' },
-    { name: 'Owen', code: 'goat', access: 'evening' },
-    { name: 'Callum', code: 'ape', access: 'evening' },
-    { name: 'Karen Rex', code: 'moorhen', access: 'evening' },
-    { name: 'Andy Rex', code: 'egret', access: 'evening' },
-    { name: 'Amy', code: 'blackbird', access: 'evening' },
-    { name: 'Cat', code: 'skylark', access: 'evening' },
-    { name: 'Jess', code: 'kestrel', access: 'evening' },
-    { name: 'George', code: 'dog', access: 'evening' },
-    { name: 'Trevor', code: 'rooster', access: 'evening' },
-    { name: 'Mary', code: 'snail', access: 'evening' },
-    { name: 'Will', code: 'bobcat', access: 'evening' },
-    { name: 'Emma', code: 'hound', access: 'evening' },
-    { name: 'Luke', code: 'finch', access: 'evening' },
-    { name: 'Tegan', code: 'giraffe', access: 'evening' },
-    { name: 'Lewis', code: 'dormouse', access: 'evening' },
-    { name: 'Auntie Angela', code: 'raccoon', access: 'evening' },
-    { name: 'Jed', code: 'squid', access: 'evening' },
-    { name: 'Livvie', code: 'flamingo', access: 'evening' },
-    { name: 'George', code: 'wolf', access: 'evening' },
-    { name: 'Ali', code: 'lamb', access: 'evening' },
-    { name: 'Andy Ferguson', code: 'viper', access: 'evening' },
-    { name: 'Julie', code: 'bat', access: 'evening' },
-    { name: 'Alan', code: 'swallow', access: 'evening' },
-    { name: 'Mark\'s Wife', code: 'avocet', access: 'evening' },
-    { name: 'Suade', code: 'nuthatch', access: 'evening' },
-    { name: 'Charlotte', code: 'firefly', access: 'evening' },
-    { name: 'Johnny', code: 'pony', access: 'evening' },
-    { name: 'Amelia', code: 'bilby', access: 'evening' },
-    { name: 'Tia', code: 'rook', access: 'evening' },
-    { name: 'Laura (Neighbor)', code: 'macaw', access: 'evening' },
-    { name: 'Katlyn', code: 'mare', access: 'evening' },
-    { name: 'Ellie (St James)', code: 'fawn', access: 'evening' },
-    { name: 'John (St James)', code: 'orca', access: 'evening' },
-    { name: 'Tim (Keyzo)', code: 'mongoose', access: 'evening' },
-    { name: 'Will (Keyzo)', code: 'bittern', access: 'evening' },
-    { name: 'Tahla (Keyzo)', code: 'goose', access: 'evening' },
-    { name: 'Therisa (Keyzo)', code: 'ray', access: 'evening' },
-    { name: 'Iwona (Keyzo)', code: 'stoat', access: 'evening' },
-    { name: 'Shane (Keyzo)', code: 'toad', access: 'evening' },
-    { name: 'Sarah (Franklin)', code: 'shrimp', access: 'evening' },
-    { name: 'Jez (Franklin)', code: 'kangaroo', access: 'evening' },
-    { name: 'Jess Ryley', code: 'heron', access: 'evening' },
+    // Evening guests — shared password
+    { name: 'Evening guest', code: 'flamingo', access: 'evening' },
 ];
