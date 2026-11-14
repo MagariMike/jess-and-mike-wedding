@@ -437,15 +437,54 @@ body.is-locked .site {
     padding: 10px 18px;
     border: 1px solid var(--moss);
     border-radius: 30px;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease;
+    animation: nav-rsvp-fill 5.6s ease-in-out infinite;
 }
 
 .nav-rsvp:hover {
+    animation: none;
     background: var(--moss);
+    border-color: var(--moss);
     color: var(--white) !important;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+@keyframes nav-rsvp-fill {
+    0%,
+    100% {
+        background: var(--matcha);
+        border-color: var(--matcha);
+        color: var(--moss);
+    }
+
+    25% {
+        background: var(--velvet);
+        border-color: var(--velvet);
+        color: var(--white);
+    }
+
+    50% {
+        background: var(--pink-silk);
+        border-color: var(--pink-silk);
+        color: var(--velvet);
+    }
+
+    75% {
+        background: var(--moss);
+        border-color: var(--moss);
+        color: var(--white);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-rsvp {
+        animation: none;
+        background: var(--velvet);
+        border-color: var(--velvet);
+        color: var(--white);
+    }
 }
 
 .menu-toggle {
@@ -809,11 +848,9 @@ body.is-locked .site {
     }
 }
 
-/* Desktop: arrows around the sticky nav RSVP */
+/* Nav RSVP arrows retired — emphasis is the colour-cycling fill */
 .rsvp-arrows--nav {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
+    display: none;
 }
 
 .rsvp-arrow--nav-left,
@@ -1389,15 +1426,14 @@ body.is-locked .site {
         border: 0;
         border-radius: 0;
         text-align: left;
+        animation: none;
+        background: transparent;
+        color: var(--moss);
     }
 
     .navigation-links .nav-rsvp:hover {
         background: transparent;
         color: var(--velvet) !important;
-    }
-
-    .rsvp-arrows--nav {
-        display: none;
     }
 
     .menu-toggle {
